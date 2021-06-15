@@ -154,7 +154,7 @@ export default {
       if (this.disabled) {
         return;
       }
-      this.url=null;
+      this.url = null;
       var name = this.categoryName;
       this.disabled = true;
       var storage = firebase
@@ -189,17 +189,21 @@ export default {
         .firestore()
         .collection("categories")
         .add({
-          name:name,
-          downloadURL:downloadURL,
+          name: name,
+          downloadURL: downloadURL,
           userEmail: firebase.auth().currentUser.email,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         })
-        .then(docRef => {
-            console.log(docRef.id);
+        .then((docRef) => {
+          console.log(docRef.id);
+          var dataRef = firebase.firestore().collection("wallpaper-data").doc("data");
+          dataRef.update({
+            categories: firebase.firestore.FieldValue.increment(1),
+          });
           this.err = false;
-          this.$router.push('/categories');
+          this.$router.push("/categories");
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err.message);
           this.err = true;
         })
@@ -209,11 +213,11 @@ export default {
         });
     },
   },
-  created(){
-    var obj=JSON.parse(localStorage.getItem('user'));
-    if(!obj.isAdmin && (obj.access.indexOf("wallpapers") == -1)){
-      this.$router.push('/');
+  created() {
+    var obj = JSON.parse(localStorage.getItem("user"));
+    if (!obj.isAdmin && obj.access.indexOf("wallpapers") == -1) {
+      this.$router.push("/");
     }
-  }
+  },
 };
 </script>

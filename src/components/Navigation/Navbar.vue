@@ -1,6 +1,8 @@
 <template>
   <div
     class="
+    border-b-4
+    border-blue-500
       px-4
       py-3
       bg-bgray-800

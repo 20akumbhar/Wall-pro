@@ -47,7 +47,7 @@
                 font-sans
               "
             >
-              {{emailId}}
+              {{ emailId }}
             </p>
             <div class="badge">
               <span
@@ -62,7 +62,7 @@
                   bg-blue-100
                   rounded-full
                 "
-                >{{isAdmin?'Admin':'User'}}</span
+                >{{ isAdmin ? "Admin" : "User" }}</span
               >
             </div>
           </div>
@@ -166,18 +166,18 @@
               >
                 <span class="inline-flex justify-center items-center ml-4">
                   <svg
-                    class="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                    ></path>
+                      stroke-width="{2}"
+                      d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
+                    />
                   </svg>
                 </span>
                 <span
@@ -192,9 +192,54 @@
                   >Categories</span
                 >
               </router-link>
-            
             </li>
 
+            <li v-if="wallpaper">
+              <router-link
+                to="/wallpapers"
+                class="
+                  relative
+                  flex flex-row
+                  items-center
+                  h-11
+                  focus:outline-none
+                  hover:bg-gray-700
+                  text-gray-500
+                  hover:text-gray-200
+                  border-l-4 border-transparent
+                  hover:border-blue-500
+                  pr-6
+                "
+              >
+                <span class="inline-flex justify-center items-center ml-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="
+                    ml-2
+                    font-semibold
+                    text-sm
+                    tracking-wide
+                    truncate
+                    font-sans
+                  "
+                  >Wallpapers</span
+                >
+              </router-link>
+            </li>
 
             <li class="px-5" v-if="isAdmin">
               <div class="flex flex-row items-center h-8">
@@ -231,18 +276,18 @@
               >
                 <span class="inline-flex justify-center items-center ml-4">
                   <svg
-                    class="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
                       stroke-width="2"
-                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                    ></path>
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                    />
                   </svg>
                 </span>
                 <span
@@ -323,7 +368,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 export default {
-  data:()=>({email:'',isAdmin:false,wallpaper:false}),
+  data: () => ({ email: "", isAdmin: false, wallpaper: false }),
   props: {
     toggle: { type: Boolean, default: true },
   },
@@ -333,23 +378,25 @@ export default {
       this.$emit("on-toggle");
     },
     logout() {
-      firebase.auth().signOut()
-      .then(()=>{
-        localStorage.removeItem('user');
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          localStorage.removeItem("user");
           this.$router.push("/");
-      })
+        });
     },
   },
-  created(){
-    this.emailId=firebase.auth().currentUser.email
-    var user= JSON.parse(localStorage.getItem('user'))
-    this.isAdmin=user.isAdmin;
-    this.wallpaper=(user.isAdmin || user.access.indexOf("wallpapers") != -1)
-  }
+  created() {
+    this.emailId = firebase.auth().currentUser.email;
+    var user = JSON.parse(localStorage.getItem("user"));
+    this.isAdmin = user.isAdmin;
+    this.wallpaper = user.isAdmin || user.access.indexOf("wallpapers") != -1;
+  },
 };
 </script>
 <style scoped>
-.router-link-active{
-  @apply  bg-gray-700 text-gray-200 border-blue-500;
+.router-link-active {
+  @apply bg-gray-700 text-gray-200 border-blue-500;
 }
 </style>

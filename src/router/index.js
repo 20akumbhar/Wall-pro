@@ -59,6 +59,20 @@ const routes = [
     meta: {
       requireAuth: true
     }
+  },
+  {
+    path:'/wallpapers',
+    component: () => import(/* webpackChunkName: "wallpaper" */ '../views/Wallpapers/Wallpapers.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path:'/wallpapers/new',
+    component: () => import(/* webpackChunkName: "add-wallpaper" */ '../views/Wallpapers/NewWallpaper.vue'),
+    meta: {
+      requireAuth: true
+    }
   }
 ]
 
