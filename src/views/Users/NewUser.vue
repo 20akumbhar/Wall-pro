@@ -199,10 +199,15 @@ export default {
               userId: data.localId,
               isAdmin: false,
               access: ["wallpapers"],
+              isActive:true,
               emailId: email,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             });
           //console.log(data);
+          var dataRef = firebase.firestore().collection("wallpaper-data").doc("data");
+          dataRef.update({
+            users: firebase.firestore.FieldValue.increment(1),
+          });
           this.success = true;
           this.err = false;
           console.log(doc);

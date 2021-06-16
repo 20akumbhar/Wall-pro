@@ -37,7 +37,7 @@
   </div>
   <hr>
   <!-- <div class="grid px-1 grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 max-w-max gap-2 overflow-hidden"> -->
-  <div class="flex px-1 flex-wrap max-w-max gap-2 overflow-hidden">
+  <div class="flex p-2 flex-wrap max-w-max gap-2 overflow-hidden">
       <div v-for="wallpaper in wallpapers" :key="wallpaper.id" class="w-36 h-56">
           <img :src="wallpaper.data().thumbnail" alt="image" class="w-full h-full object-center object-cover">
       </div>

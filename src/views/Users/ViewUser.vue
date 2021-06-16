@@ -19,6 +19,9 @@
       <p>Role :</p>
       <strong v-if="user.isAdmin">Admin</strong>
       <strong v-if="!user.isAdmin">User</strong>
+      <p>Account :</p>
+      <strong v-if="user.isActive" class="text-green-500">Enabled</strong>
+      <strong v-if="!user.isActive" class="text-red-500">Disabled</strong>
     </div>
   </div>
 

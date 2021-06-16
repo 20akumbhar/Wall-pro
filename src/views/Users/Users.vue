@@ -70,6 +70,7 @@ export default {
     firebase
       .firestore()
       .collection("admins")
+      .where('isAdmin',"==",false)
       .onSnapshot((querySnapshot) => {
         var users = [];
         querySnapshot.forEach((doc) => {
