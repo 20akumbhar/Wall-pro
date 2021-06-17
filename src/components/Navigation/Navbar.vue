@@ -3,8 +3,7 @@
     class="
     border-b-4
     border-blue-500
-      px-4
-      py-3
+      p-4
       bg-bgray-800
       text-bgray-50
       flex

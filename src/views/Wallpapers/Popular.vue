@@ -1,5 +1,6 @@
 <template>
-  <div class="flex justify-end">
+  <div class="flex justify-between items-center">
+      <h1 class="font-bold text-lg ml-4">Popular</h1>
     <router-link
       tag="button"
       to="/wallpapers/new"
@@ -32,7 +33,7 @@
           d="M12 6v6m0 0v6m0-6h6m-6 0H6"
         />
       </svg>
-      Add New
+      Add wallpaper
     </router-link>
   </div>
   <hr>
@@ -57,6 +58,7 @@ export default {
     firebase
       .firestore()
       .collection("wallpapers")
+      .where('isPopular','==',true)
       .onSnapshot((querySnapshot) => {
         var data = [];
         querySnapshot.forEach((doc) => {
