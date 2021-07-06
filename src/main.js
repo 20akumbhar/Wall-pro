@@ -5,7 +5,7 @@ import './css/tailwind.css'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 var firebaseConfig = {
-  
+ 
 };
 
 firebase.initializeApp(firebaseConfig);

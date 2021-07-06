@@ -261,7 +261,6 @@ export default {
           isPopular: this.data.isPopular,
           isPremium: this.data.isPremium,
           source: this.data.source,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         })
         .then(() => {
           this.disabled = false;

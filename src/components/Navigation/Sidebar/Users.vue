@@ -17,6 +17,11 @@
             </li>
             <li>
               <router-link
+              :class="
+        $route.path.startsWith('/users') 
+          ? 'bg-gray-700 text-bgray-200 border-blue-500'
+          : ''
+      "
                 to="/users"
                 class="
                   relative

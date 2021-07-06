@@ -88,6 +88,7 @@
             </li>
             <li>
               <router-link
+                active-class="bg-gray-700 text-bgray-200 border-blue-500"
                 to="/"
                 class="
                   relative
@@ -133,7 +134,7 @@
               </router-link>
             </li>
             <Wallpaper v-if="wallpaper" />
-            <Users v-if="isAdmin"/>
+            <Users v-if="isAdmin" />
             <li class="mt-auto">
               <a
                 @click="logout"
@@ -201,7 +202,7 @@ import "firebase/auth";
 import Wallpaper from "./Sidebar/Wallpaper.vue";
 import Users from "./Sidebar/Users.vue";
 export default {
-  components: { Wallpaper ,Users},
+  components: { Wallpaper, Users },
   data: () => ({ email: "", isAdmin: false, wallpaper: false }),
   props: {
     toggle: { type: Boolean, default: true },
@@ -230,7 +231,23 @@ export default {
 };
 </script>
 <style scoped>
-.router-link-active {
-  @apply bg-gray-700 text-gray-200 border-blue-500;
+/* width */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>
