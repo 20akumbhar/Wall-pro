@@ -91,7 +91,7 @@
         "
         :disabled="disabled"
       >
-        Add Category
+        Add Wallpaper
       </button>
     </div>
     <div class="border-t md:border-l md:border-t-0 text-center">
@@ -238,6 +238,7 @@ export default {
             image:downloadURL,
             thumbnail:compressedURL,
             isPopular:false,
+            isPremium:false,
             userId:firebase.auth().currentUser.email,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
         }).then((docRef) => {
@@ -247,7 +248,7 @@ export default {
             wallpapers: firebase.firestore.FieldValue.increment(1),
           });
           this.err = false;
-          this.$router.push("/");
+          this.$router.push("/wallpapers");
         })
         .catch((err) => {
           console.log(err.message);

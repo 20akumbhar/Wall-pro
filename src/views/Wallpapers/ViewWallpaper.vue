@@ -18,7 +18,7 @@
   <div
     v-if="success"
     class="
-      mt-4
+      m-4
       bg-green-300
       border border-green-500
       text-green-600
@@ -30,7 +30,7 @@
     "
     role="alert"
   >
-    <span class="block sm:inline">Category Updated.</span>
+    <span class="block sm:inline">Wallpaper Updated.</span>
   </div>
   <div class="grid sm:grid-cols-2">
     <div class="w-full p-4" v-if="data">
@@ -92,6 +92,59 @@
               focus:outline-none
             "
             @click="data.isPopular = !data.isPopular"
+          />
+        </div>
+      </div>
+      <div class="ispremium mt-4 flex space-x-4">
+        <p>Premium :</p>
+        <div
+          v-if="data"
+          class="
+            relative
+            rounded-full
+            w-12
+            h-6
+            transition
+            duration-200
+            ease-linear
+          "
+          :class="data.isPremium ? 'bg-blue-500' : 'bg-gray-400'"
+        >
+          <label
+            for="toggle"
+            class="
+              absolute
+              left-0
+              bg-white
+              border-2
+              mb-2
+              w-6
+              h-6
+              rounded-full
+              transition
+              transform
+              duration-100
+              ease-linear
+              cursor-pointer
+            "
+            :class="
+              data.isPremium
+                ? 'translate-x-full border-blue-500'
+                : 'translate-x-0 border-gray-400'
+            "
+          ></label>
+          <input
+            type="checkbox"
+            id="toggle"
+            name="toggle"
+            class="
+              appearance-none
+              w-full
+              h-full
+              active:outline-none
+              focus:outline-none
+            "
+            @click="data.isPremium = !data.isPremium"
           />
         </div>
       </div>
@@ -206,6 +259,7 @@ export default {
         .update({
           categoryId: this.data.categoryId,
           isPopular: this.data.isPopular,
+          isPremium: this.data.isPremium,
           source: this.data.source,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         })

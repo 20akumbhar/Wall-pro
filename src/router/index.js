@@ -82,6 +82,13 @@ const routes = [
     }
   },
   {
+    path:'/wallpapers/premium',
+    component: () => import(/* webpackChunkName: "premium-wallpaper" */ '../views/Wallpapers/Premium.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
     path:'/wallpapers/view/:wallpaperId',
     component: () => import(/* webpackChunkName: "view-wallpaper" */ '../views/Wallpapers/ViewWallpaper.vue'),
     meta: {
