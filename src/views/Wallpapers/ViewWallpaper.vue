@@ -280,6 +280,10 @@ export default {
         .delete()
         .then(() => {
           console.log("Document successfully deleted!");
+          var dataRef = firebase.firestore().collection("wallpaper-data").doc("data");
+          dataRef.update({
+            wallpapers: firebase.firestore.FieldValue.increment(-1),
+          });
           this.$router.push('/wallpapers')
         })
         .catch((error) => {
