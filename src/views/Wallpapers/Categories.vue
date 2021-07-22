@@ -1,6 +1,7 @@
 <template>
   <div class="flex justify-end">
     <router-link
+     v-if="isAdmin"
       tag="button"
       to="/categories/new"
       type="button"
@@ -38,9 +39,10 @@
   <hr />
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
     <router-link
-    v-for="category in categories" :key="category"
+      v-for="category in categories"
+      :key="category"
       tag="div"
-      :to="{ name: 'ViewCategory', params: { categoryId: category.id }}"
+      :to="{ name: 'ViewCategory', params: { categoryId: category.id } }"
       class="
         card
         border
@@ -53,7 +55,7 @@
         border-blue-500 border-l-4
       "
     >
-      {{category.data().name}}
+      {{ category.data().name }}
     </router-link>
   </div>
 </template>
@@ -67,12 +69,14 @@ import "firebase/firestore";
 export default {
   data: () => ({
     categories: [],
+    isAdmin:false
   }),
   created() {
-    var obj=JSON.parse(localStorage.getItem('user'));
-    if(!obj.isAdmin && (obj.access.indexOf("wallpapers") == -1)){
-      this.$router.push('/');
+    var obj = JSON.parse(localStorage.getItem("user"));
+    if (!obj.isAdmin && obj.access.indexOf("wallpapers") == -1) {
+      this.$router.push("/");
     }
+    this.isAdmin=obj.isAdmin;
     firebase
       .firestore()
       .collection("categories")
@@ -81,9 +85,8 @@ export default {
         querySnapshot.forEach((doc) => {
           data.push(doc);
         });
-        this.categories=data;
+        this.categories = data;
       });
-      
   },
 };
 </script>

@@ -133,7 +133,8 @@
                 >
               </router-link>
             </li>
-            <Wallpaper v-if="wallpaper" />
+            <Wallpaper v-if="wallpaper" :isAdmin="isAdmin" />
+            <Qoutes v-if="qoute"/>
             <Users v-if="isAdmin" />
             <li class="mt-auto">
               <a
@@ -201,9 +202,10 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import Wallpaper from "./Sidebar/Wallpaper.vue";
 import Users from "./Sidebar/Users.vue";
+import Qoutes from "./Sidebar/Qoutes.vue";
 export default {
-  components: { Wallpaper, Users },
-  data: () => ({ email: "", isAdmin: false, wallpaper: false }),
+  components: { Wallpaper, Users,Qoutes },
+  data: () => ({ email: "", isAdmin: false, wallpaper: false,qoute:false }),
   props: {
     toggle: { type: Boolean, default: true },
   },
@@ -227,13 +229,14 @@ export default {
     var user = JSON.parse(localStorage.getItem("user"));
     this.isAdmin = user.isAdmin;
     this.wallpaper = user.isAdmin || user.access.indexOf("wallpapers") != -1;
+    this.qoute = user.isAdmin || user.access.indexOf("qoutes") != -1;
   },
 };
 </script>
 <style scoped>
 /* width */
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 4px;
 }
 
 /* Track */

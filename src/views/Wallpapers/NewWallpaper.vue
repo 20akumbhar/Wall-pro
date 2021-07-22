@@ -88,6 +88,7 @@
           bg-gray-700
           hover:bg-gray-900
           hover:shadow-lg
+          disabled:opacity-20
         "
         :disabled="disabled"
       >
@@ -169,7 +170,6 @@ export default {
       }
       this.disabled = true;
       this.addToStorage(this.category, this.source, this.blob, this.compressed);
-      this.disabled = false;
     },
     proceedCompressedImage(compressedSrc) {
       this.compressed = compressedSrc;
@@ -207,7 +207,9 @@ export default {
         .storage()
         .ref()
         .child("wallpapers/thumbnails/wallpaper_" + Date.now() + "a.jpg");
-      var uploadTask = storage.putString(compressed,'data_url',{contentType: 'image/jpeg'});
+      var uploadTask = storage.putString(compressed, "data_url", {
+        contentType: "image/jpeg",
+      });
       this.uploading = true;
       this.err = false;
       uploadTask.on(
@@ -230,35 +232,42 @@ export default {
         }
       );
     },
-    addToDB(category, source, downloadURL, compressedURL){
-        firebase.firestore().collection('wallpapers')
+    addToDB(category, source, downloadURL, compressedURL) {
+      firebase
+        .firestore()
+        .collection("wallpapers")
         .add({
-            categoryId: category,
-            source:source,
-            image:downloadURL,
-            thumbnail:compressedURL,
-            isPopular:false,
-            isPremium:false,
-            userId:firebase.auth().currentUser.email,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        }).then((docRef) => {
+          categoryId: category,
+          source: source,
+          image: downloadURL,
+          thumbnail: compressedURL,
+          isPopular: false,
+          isPremium: false,
+          userId: firebase.auth().currentUser.email,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        })
+        .then((docRef) => {
           console.log(docRef.id);
-          var dataRef = firebase.firestore().collection("wallpaper-data").doc("data");
+          var dataRef = firebase
+            .firestore()
+            .collection("wallpaper-data")
+            .doc("data");
           dataRef.update({
             wallpapers: firebase.firestore.FieldValue.increment(1),
           });
           this.err = false;
           this.$router.push("/wallpapers");
+          this.disabled = false;
         })
         .catch((err) => {
           console.log(err.message);
           this.err = true;
+          this.disabled = false;
         })
         .finally(() => {
-          this.disabled = false;
           this.uploading = false;
         });
-    }
+    },
   },
   created() {
     var obj = JSON.parse(localStorage.getItem("user"));
@@ -268,6 +277,7 @@ export default {
     firebase
       .firestore()
       .collection("categories")
+      .orderBy('name')
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

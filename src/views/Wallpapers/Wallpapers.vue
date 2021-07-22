@@ -90,6 +90,7 @@ export default {
     if (!obj.isAdmin && obj.access.indexOf("wallpapers") == -1) {
       this.$router.push("/");
     }
+    
 
     firebase
       .firestore()

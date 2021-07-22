@@ -11,18 +11,18 @@
           uppercase
         "
       >
-        Wallpapers
+        Qoutes
       </div>
     </div>
   </li>
   <li>
     <router-link
       :class="
-        $route.path.startsWith('/categories')
+        $route.path.startsWith('/q/categories') || $route.path.startsWith('/q/category')
           ? 'bg-gray-700 text-bgray-200 border-blue-500'
           : ''
       "
-      to="/categories"
+      to="/q/categories"
       class="
         relative
         flex flex-row
@@ -62,13 +62,13 @@
   <li>
     <router-link
       :class="
-        $route.path.startsWith('/wallpapers/new') ||
-        $route.path.startsWith('/wallpapers/view') 
+        $route.path.startsWith('/q/new') ||
+        $route.path.startsWith('/q/view') 
           ? 'bg-gray-700 text-bgray-200 border-blue-500'
           : ''
       "
       active-class="bg-gray-700 text-bgray-200 border-blue-500"
-      to="/wallpapers"
+      to="/q/categories"
       class="
         relative
         flex flex-row
@@ -100,12 +100,12 @@
         </svg>
       </span>
       <span class="ml-2 font-semibold text-sm tracking-wide truncate font-sans"
-        >Wallpapers</span
+        >Qoutes</span
       >
     </router-link>
   </li>
 
-  <li v-if="isAdmin">
+  <li>
     <router-link
       active-class="bg-gray-700 text-bgray-200 border-blue-500"
       to="/wallpapers/popular"
@@ -144,50 +144,21 @@
       >
     </router-link>
   </li>
-  <!-- -->
-  <li v-if="isAdmin">
-    <router-link
-      active-class="bg-gray-700 text-bgray-200 border-blue-500"
-      to="/wallpapers/premium"
-      class="
-        relative
-        flex flex-row
-        items-center
-        h-11
-        focus:outline-none
-        hover:bg-gray-700
-        text-gray-500
-        hover:text-bgray-200
-        border-l-4 border-transparent
-        hover:border-blue-500
-        pr-6
-      "
-    >
-      <span class="inline-flex justify-center items-center ml-4">
-        <svg
-          class="h-5 w-5"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M10.1724 4.14988C10.8762 2.56624 13.1238 2.56626 13.8276 4.14988L15.3346 7.54057C15.8669 8.73828 17.3881 9.1088 18.4116 8.29003L20.7094 6.45182C22.1722 5.28159 24.2968 6.58433 23.9173 8.41877L21.8092 18.6078C21.521 20.0008 20.294 20.9999 18.8714 20.9999H5.12856C3.70599 20.9999 2.47901 20.0008 2.19078 18.6078L0.0827157 8.41877C-0.296822 6.58433 1.82784 5.28159 3.29063 6.45182L5.58839 8.29003C6.61186 9.1088 8.13309 8.73828 8.6654 7.54057L10.1724 4.14988ZM12 4.96216L10.493 8.35285C9.42839 10.7483 6.38594 11.4893 4.339 9.85177L2.04124 8.01356L4.1493 18.2025C4.24538 18.6669 4.65437 18.9999 5.12856 18.9999H18.8714C19.3456 18.9999 19.7546 18.6669 19.8507 18.2025L21.9588 8.01356L19.661 9.85177C17.6141 11.4893 14.5716 10.7483 13.507 8.35285L12 4.96216Z"
-            fill="currentColor"
-          />
-        </svg>
-      </span>
-      <span class="ml-2 font-semibold text-sm tracking-wide truncate font-sans"
-        >Premium</span
-      >
-    </router-link>
-  </li>
 </template>
-<script>
-export default {
-  props:{
-    isAdmin:Boolean
-  }
-}
-</script>
+ <script>
+// import 'firebase/firestore'
+// export default {
+//     created(){
+//         this.QoutesDB.firestore()
+//       .collection("test")
+//       .doc("test")
+//       .get()
+//       .then((snapshot) => {
+//         console.log(snapshot.data())
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//     }
+// }
+ </script>

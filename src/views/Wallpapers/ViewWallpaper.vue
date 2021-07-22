@@ -111,7 +111,7 @@
           :class="data.isPremium ? 'bg-blue-500' : 'bg-gray-400'"
         >
           <label
-            for="toggle"
+            for="popular-toggle"
             class="
               absolute
               left-0
@@ -135,7 +135,7 @@
           ></label>
           <input
             type="checkbox"
-            id="toggle"
+            id="popular-toggle"
             name="toggle"
             class="
               appearance-none

@@ -36,6 +36,15 @@
           v-model="wallpapers"
         />
       </label>
+
+      <label class="flex items-center mt-3">
+        <span class="ml-2 text-gray-700">Qoutes</span>
+        <input
+          type="checkbox"
+          class="form-checkbox ml-4 h-5 w-5 text-gray-600"
+          v-model="qoutes"
+        />
+      </label>
     </div>
   </div>
   <button
@@ -102,6 +111,7 @@ export default {
     email: "",
     show: false,
     wallpapers: false,
+    qoutes: false,
     success: false,
     err: false,
   }),
@@ -133,6 +143,9 @@ export default {
       var access = [];
       if (this.wallpapers) {
         access.push("wallpapers");
+      }
+      if (this.qoutes) {
+        access.push("qoutes");
       }
       firebase
         .firestore()

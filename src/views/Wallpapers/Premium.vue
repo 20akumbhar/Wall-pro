@@ -52,7 +52,7 @@ export default {
     data:()=>({wallpapers:[]}),
   created() {
     var obj = JSON.parse(localStorage.getItem("user"));
-    if (!obj.isAdmin && obj.access.indexOf("wallpapers") == -1) {
+    if (!obj.isAdmin) {
       this.$router.push("/");
     }
 
