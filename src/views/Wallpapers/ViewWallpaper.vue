@@ -211,7 +211,7 @@
         "
         :disabled="disabled"
       >
-        Edit
+        Update
       </button>
 
       <button
@@ -246,26 +246,56 @@ export default {
     success: false,
     categories: [],
     disabled: false,
+    isPopularFirst: false,
+    isPremiumFirst: false,
   }),
   methods: {
     editWallpaper() {
       this.disabled = true;
       this.err = false;
       this.success = false;
-      firebase
-        .firestore()
-        .collection("wallpapers")
-        .doc(this.$route.params.wallpaperId)
-        .update({
+      var count = {
+        popular: firebase.firestore.FieldValue.increment(0),
+        premium: firebase.firestore.FieldValue.increment(0)
+      };
+      if (this.isPopularFirst && !this.data.isPopular) {
+        count.popular = firebase.firestore.FieldValue.increment(-1);
+      }
+      if (!this.isPopularFirst && this.data.isPopular) {
+        count.popular = firebase.firestore.FieldValue.increment(1);
+      }
+      if (this.isPremiumFirst && !this.data.isPremium) {
+        count.premium = firebase.firestore.FieldValue.increment(-1);
+      }
+      if (!this.isPremiumFirst && this.data.isPremium) {
+        count.premium = firebase.firestore.FieldValue.increment(1);
+      }
+      var batch = firebase.firestore().batch();
+      batch.update(
+        firebase
+          .firestore()
+          .collection("wallpapers")
+          .doc(this.$route.params.wallpaperId),
+        {
           categoryId: this.data.categoryId,
           isPopular: this.data.isPopular,
           isPremium: this.data.isPremium,
           source: this.data.source,
-        })
+        }
+      );
+      batch.update(
+        firebase.firestore().collection("wallpaper-data").doc("data"),
+        count
+      );
+
+      batch
+        .commit()
         .then(() => {
           this.disabled = false;
           this.success = true;
           this.err = false;
+          this.isPopularFirst = this.data.isPopular;
+          this.isPremiumFirst = this.data.isPremium;
         })
         .catch((error) => {
           this.disabled = false;
@@ -275,16 +305,21 @@ export default {
         });
     },
     deleteWallpaper() {
-      firebase.firestore().collection("wallpapers")
+      firebase
+        .firestore()
+        .collection("wallpapers")
         .doc(this.$route.params.wallpaperId)
         .delete()
         .then(() => {
           console.log("Document successfully deleted!");
-          var dataRef = firebase.firestore().collection("wallpaper-data").doc("data");
+          var dataRef = firebase
+            .firestore()
+            .collection("wallpaper-data")
+            .doc("data");
           dataRef.update({
             wallpapers: firebase.firestore.FieldValue.increment(-1),
           });
-          this.$router.push('/wallpapers')
+          this.$router.push("/wallpapers");
         })
         .catch((error) => {
           console.error("Error removing document: ", error);
@@ -307,6 +342,8 @@ export default {
           this.err = true;
         } else {
           this.data = snapshot.data();
+          this.isPopularFirst = this.data.isPopular;
+          this.isPremiumFirst = this.data.isPremium;
         }
       })
       .catch((err) => {

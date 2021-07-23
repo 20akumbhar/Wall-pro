@@ -9,10 +9,10 @@
         focus:outline-none
         text-white text-sm
         py-2.5
-        px-5
+        px-4
         rounded-md
-        bg-bgray-500
-        hover:bg-bgray-600
+        bg-bgray-900
+        hover:bg-bgray-800
         hover:shadow-lg
         flex
         items-center
@@ -21,7 +21,7 @@
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="w-4 h-4 mr-2"
+        class="w-4 h-4 mr-1"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -33,7 +33,7 @@
           d="M12 6v6m0 0v6m0-6h6m-6 0H6"
         />
       </svg>
-      Add New
+      New Category
     </router-link>
   </div>
   <hr />
@@ -42,7 +42,7 @@
       v-for="category in categories"
       :key="category"
       tag="div"
-      :to="{ name: 'ViewCategory', params: { categoryId: category.id } }"
+      :to="isAdmin?{ name: 'ViewCategory', params: { categoryId: category.id }}:'/categories'"
       class="
         card
         border
@@ -76,7 +76,7 @@ export default {
     if (!obj.isAdmin && obj.access.indexOf("wallpapers") == -1) {
       this.$router.push("/");
     }
-    this.isAdmin=obj.isAdmin;
+    this.isAdmin=Boolean(obj.isAdmin);
     firebase
       .firestore()
       .collection("categories")

@@ -3,7 +3,11 @@
     <div
       class="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen"
     >
-      <img src="@/assets/note.jpg" alt="" class="w-full h-full object-cover object-center" />
+      <img
+        src="@/assets/note.jpg"
+        alt=""
+        class="w-full h-full object-cover object-center"
+      />
     </div>
 
     <div
@@ -107,11 +111,16 @@
               hover:bg-blue-600
               hover:shadow-lg
               mt-4
-              block
+              flex
+              justify-center
+              gap-4
               w-full
+              disabled:opacity-40
             "
+            :disabled="disabled"
           >
-            Login
+            <span v-if="disabled" class="h-5 w-5 border-t-2 border-l-2 rounded-full animate-spin"></span>
+            <span>Login</span>
           </button>
           <p class="mt-4 text-red-500 text-sm">{{ err }}</p>
         </form>
@@ -152,8 +161,7 @@ export default {
             .firestore()
             .collection("admins")
             .doc(user.user.uid)
-            .get()
-            .then((snapshot) => {
+            .onSnapshot((snapshot) => {
               localStorage.setItem("user", JSON.stringify(snapshot.data()));
               this.$router.push("/");
               console.log(user);

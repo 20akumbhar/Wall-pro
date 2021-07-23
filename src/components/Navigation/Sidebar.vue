@@ -186,6 +186,7 @@
                     tracking-wide
                     truncate
                     font-sans
+                    
                   "
                   >Logout</span
                 >
@@ -227,7 +228,7 @@ export default {
   created() {
     this.emailId = firebase.auth().currentUser.email;
     var user = JSON.parse(localStorage.getItem("user"));
-    this.isAdmin = user.isAdmin;
+    this.isAdmin =Boolean(user.isAdmin);
     this.wallpaper = user.isAdmin || user.access.indexOf("wallpapers") != -1;
     this.qoute = user.isAdmin || user.access.indexOf("qoutes") != -1;
   },
