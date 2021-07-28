@@ -62,13 +62,12 @@
 
   <li>
     <router-link
-      :class="
-        $route.path.startsWith('/q/new') || $route.path.startsWith('/q/view')
+    :class="
+        $route.path.startsWith('/q/qoutes') 
           ? 'bg-gray-700 text-bgray-200 border-blue-500'
           : ''
       "
-      active-class="bg-gray-700 text-bgray-200 border-blue-500"
-      to="/q/categories"
+      to="/q/qoutes"
       class="
         relative
         flex flex-row
@@ -118,7 +117,7 @@
   <li>
     <router-link
       active-class="bg-gray-700 text-bgray-200 border-blue-500"
-      to="/wallpapers/popular"
+      to="/q/qoutes"
       class="
         relative
         flex flex-row

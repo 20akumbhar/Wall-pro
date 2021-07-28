@@ -2,7 +2,7 @@
   <div
     @click="close"
     v-if="!toggle"
-    class="md:hidden fixed inset-0 bg-bgray-600 bg-opacity-10 z-40"
+    class="md:hidden fixed inset-0 bg-bgray-600 bg-opacity-30 z-40"
   ></div>
 
   <div @click="close" class="sidebae z-50 max-w-min fixed top-0 left-0">
@@ -69,7 +69,7 @@
           </div>
         </div>
         <div class="overflow-y-auto overflow-x-hidden flex-grow">
-          <ul class="flex flex-col py-6 space-y-1">
+          <ul class="flex sidebar-ul flex-col py-6 space-y-1">
             <li class="px-5">
               <div class="flex flex-row items-center h-8">
                 <div
@@ -254,4 +254,8 @@ export default {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+.sidebar-ul{
+font-family: 'Poppins', sans-serif;
+}
+
 </style>
