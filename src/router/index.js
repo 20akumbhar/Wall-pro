@@ -21,6 +21,13 @@ const routes = [
       requireAuth: false
     }
   },
+  {
+    path:'/update-password',
+    component: ()=> import(/* webpackChunkName: "update-password" */ '../views/Settings/UpdatePassword.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
   ...Users,
   ...wCategory,
   ...Wallpaper,

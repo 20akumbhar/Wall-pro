@@ -135,6 +135,7 @@
             <Wallpaper v-if="wallpaper" :isAdmin="isAdmin" />
             <Qoutes v-if="qoute"/>
             <Users v-if="isAdmin" />
+            <Settings/>
             <li class="mt-auto">
               <a
                 @click="logout"
@@ -203,8 +204,9 @@ import "firebase/auth";
 import Wallpaper from "./Sidebar/Wallpaper.vue";
 import Users from "./Sidebar/Users.vue";
 import Qoutes from "./Sidebar/Qoutes.vue";
+import Settings from "./Sidebar/Settings.vue";
 export default {
-  components: { Wallpaper, Users,Qoutes },
+  components: { Wallpaper, Users,Qoutes,Settings },
   data: () => ({ email: "", isAdmin: false, wallpaper: false,qoute:false }),
   props: {
     toggle: { type: Boolean, default: true },
