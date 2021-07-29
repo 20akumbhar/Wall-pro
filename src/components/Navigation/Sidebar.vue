@@ -34,11 +34,10 @@
         "
         :class="toggle ? '-ml-64' : 'ml-0'"
       >
-        <div class="flex items-center pl-6 h-20 border-b border-gray-800">
-          <div class="ml-1">
+        <div class="flex items-center pl-4 h-20 mt-4 border-b border-gray-800">
+          <div class="ml-1 mb-4">
             <p
               class="
-                ml-1
                 text-md
                 font-medium
                 tracking-wide
@@ -50,7 +49,7 @@
             >
               {{ emailId }}
             </p>
-            <div class="badge">
+            <div class="badge mt-1">
               <span
                 class="
                   px-2

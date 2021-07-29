@@ -1,5 +1,6 @@
 module.exports = [
     {
+        name: 'AllWallpaper',
         path: '/wallpapers',
         component: () => import(/* webpackChunkName: "wallpaper" */ '../views/Wallpapers/Wallpapers.vue'),
         meta: {

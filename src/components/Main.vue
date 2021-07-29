@@ -1,9 +1,17 @@
 <template>
   <div class="main relative">
     <Navbar v-if="isLoginPage" @on-toggle="toggleSidebar" />
-    <Sidebar v-if="isLoginPage" :toggle="sidebarToggle" @on-toggle="toggleSidebar" />
+    <Sidebar
+      v-if="isLoginPage"
+      :toggle="sidebarToggle"
+      @on-toggle="toggleSidebar"
+    />
     <div class="main md:ml-64">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <keep-alive include="AllWallpapers" max="4">
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </div>
   </div>
 </template>
