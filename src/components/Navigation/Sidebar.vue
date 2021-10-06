@@ -104,20 +104,7 @@
                 "
               >
                 <span class="inline-flex justify-center items-center ml-4">
-                  <svg
-                    class="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                    ></path>
-                  </svg>
+                  <HomeIcon class="w-5 h-5"/>
                 </span>
                 <span
                   class="
@@ -205,8 +192,9 @@ import Wallpaper from "./Sidebar/Wallpaper.vue";
 import Users from "./Sidebar/Users.vue";
 import Qoutes from "./Sidebar/Qoutes.vue";
 import Settings from "./Sidebar/Settings.vue";
+import {HomeIcon} from '@heroicons/vue/outline'
 export default {
-  components: { Wallpaper, Users,Qoutes,Settings },
+  components: { Wallpaper, Users,Qoutes,Settings,HomeIcon },
   data: () => ({ email: "", isAdmin: false, wallpaper: false,qoute:false }),
   props: {
     toggle: { type: Boolean, default: true },

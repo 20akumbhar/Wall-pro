@@ -8,7 +8,9 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@heroicons/vue": "^1.0.4",
     "core-js": "^3.6.5",
+    "element-plus": "^1.1.0-beta.19",
     "firebase": "^8.6.7",
     "image-compressor": "^2.0.3",
     "vue": "^3.0.0",
