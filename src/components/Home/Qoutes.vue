@@ -1,5 +1,5 @@
 <template>
-  <h1 class="px-4 pt-4 pb-2 text-blue-400 text-lg font-bold">Qoutes <span class="text-xs text-bgray-500">(under development)</span></h1>
+  <h1 class="px-4 pt-4 pb-2 text-blue-400 text-lg font-bold">Quotes <span class="text-xs text-bgray-500">(under development)</span></h1>
   <!-- <hr class="mx-5 my-2" /> -->
   <div
     class="

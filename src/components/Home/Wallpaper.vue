@@ -275,7 +275,9 @@
         <p>Downloads</p>
       </div>
     </div>
-    <div
+    <a
+    target="_blank"
+    href="https://play.google.com/store/apps/details?id=com.aadevelopers.bestwalls"
       class="
         bg-white
         shadow-lg
@@ -325,7 +327,7 @@
         <p class="text-2xl">1.0.0</p>
         <p>Version</p>
       </div>
-    </div>
+    </a>
   </div>
 </template>
 <script>

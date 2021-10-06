@@ -22,8 +22,8 @@ const routes = [
     }
   },
   {
-    path:'/update-password',
-    component: ()=> import(/* webpackChunkName: "update-password" */ '../views/Settings/UpdatePassword.vue'),
+    path: '/update-password',
+    component: () => import(/* webpackChunkName: "update-password" */ '../views/Settings/UpdatePassword.vue'),
     meta: {
       requireAuth: true
     }
@@ -31,7 +31,14 @@ const routes = [
   ...Users,
   ...wCategory,
   ...Wallpaper,
-  ...Qoutes
+  ...Qoutes,
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import(/* webpackChunkName: "update-password" */ '../views/404.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
 ]
 
 const router = createRouter({
@@ -41,7 +48,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const requireAuth = to.matched.some(record => record.meta.requireAuth);
-
+  
   if (requireAuth && !await firebase.getCurrentUser()) {
     next('/login');
   } else if (!requireAuth && await firebase.getCurrentUser()) {
