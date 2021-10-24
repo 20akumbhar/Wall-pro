@@ -119,7 +119,10 @@
             "
             :disabled="disabled"
           >
-            <span v-if="disabled" class="h-5 w-5 border-t-2 border-l-2 rounded-full animate-spin"></span>
+            <span
+              v-if="disabled"
+              class="h-5 w-5 border-t-2 border-l-2 rounded-full animate-spin"
+            ></span>
             <span>Login</span>
           </button>
           <p class="mt-4 text-red-500 text-sm">{{ err }}</p>
@@ -165,6 +168,14 @@ export default {
               localStorage.setItem("user", JSON.stringify(snapshot.data()));
               this.$router.push("/");
               console.log(user);
+            });
+
+          firebase
+            .auth(this.ItQuizDB)
+            .signInAnonymously()
+            .then(() => {
+              // Signed in..
+              console.log("signed in to it quiz");
             });
         })
         .catch((err) => {

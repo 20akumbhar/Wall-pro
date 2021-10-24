@@ -18,11 +18,17 @@
   <SidebarItem title="Update Password" to="/update-password">
     <KeyIcon class="h-5 w-5"/>
   </SidebarItem>
+  <SidebarItem v-if="isAdmin" title="Add Apps" to="/add-apps">
+    <ViewGridAddIcon class="h-5 w-5"/>
+  </SidebarItem>
 </template>
 <script>
-import { KeyIcon } from "@heroicons/vue/outline";
+import { KeyIcon,ViewGridAddIcon } from "@heroicons/vue/outline";
 import SidebarItem from "../SidebarItem.vue"
 export default {
-  components:{SidebarItem,KeyIcon}
+  components:{SidebarItem,KeyIcon,ViewGridAddIcon},
+  props: {
+    isAdmin:{type: Boolean,default: false},
+  },
 }
 </script>

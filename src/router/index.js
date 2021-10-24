@@ -3,6 +3,7 @@ import Qoutes from './Qoutes'
 import wCategory from './wCategory'
 import Wallpaper from './Wallpaper'
 import Users from './Users'
+import ItQuiz from './ItQuiz'
 import Home from '../views/Home.vue'
 import firebase from 'firebase/app'
 const routes = [
@@ -28,10 +29,25 @@ const routes = [
       requireAuth: true
     }
   },
+  {
+    path: '/all-apps',
+    component: () => import(/* webpackChunkName: "all-apps" */ '../views/Dashboard/AllApps.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/add-apps',
+    component: () => import(/* webpackChunkName: "add-apps" */ '../views/Settings/AddApps.vue'),
+    meta: {
+      requireAuth: true
+    }
+  },
   ...Users,
   ...wCategory,
   ...Wallpaper,
   ...Qoutes,
+  ...ItQuiz,
   {
     path: '/:pathMatch(.*)*',
     component: () => import(/* webpackChunkName: "update-password" */ '../views/404.vue'),

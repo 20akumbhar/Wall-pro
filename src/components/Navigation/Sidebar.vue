@@ -104,7 +104,7 @@
                 "
               >
                 <span class="inline-flex justify-center items-center ml-4">
-                  <HomeIcon class="w-5 h-5"/>
+                  <HomeIcon class="w-5 h-5" />
                 </span>
                 <span
                   class="
@@ -119,10 +119,15 @@
                 >
               </router-link>
             </li>
+            <SidebarItem title="All Apps" to="/all-apps">
+              <ViewGridIcon class="h-5 w-5" />
+            </SidebarItem>
+
             <Wallpaper v-if="wallpaper" :isAdmin="isAdmin" />
-            <Qoutes v-if="qoute"/>
+            <ItQuiz />
+            <Qoutes v-if="qoute" />
             <Users v-if="isAdmin" />
-            <Settings/>
+            <Settings :isAdmin="isAdmin"/>
             <li class="mt-auto">
               <a
                 @click="logout"
@@ -173,7 +178,6 @@
                     tracking-wide
                     truncate
                     font-sans
-                    
                   "
                   >Logout</span
                 >
@@ -192,10 +196,21 @@ import Wallpaper from "./Sidebar/Wallpaper.vue";
 import Users from "./Sidebar/Users.vue";
 import Qoutes from "./Sidebar/Qoutes.vue";
 import Settings from "./Sidebar/Settings.vue";
-import {HomeIcon} from '@heroicons/vue/outline'
+import ItQuiz from "./Sidebar/ItQuiz.vue";
+import { HomeIcon, ViewGridIcon } from "@heroicons/vue/outline";
+import SidebarItem from "./SidebarItem.vue";
 export default {
-  components: { Wallpaper, Users,Qoutes,Settings,HomeIcon },
-  data: () => ({ email: "", isAdmin: false, wallpaper: false,qoute:false }),
+  components: {
+    Wallpaper,
+    Users,
+    Qoutes,
+    Settings,
+    HomeIcon,
+    ItQuiz,
+    SidebarItem,
+    ViewGridIcon,
+  },
+  data: () => ({ email: "", isAdmin: false, wallpaper: false, qoute: false }),
   props: {
     toggle: { type: Boolean, default: true },
   },
@@ -217,7 +232,7 @@ export default {
   created() {
     this.emailId = firebase.auth().currentUser.email;
     var user = JSON.parse(localStorage.getItem("user"));
-    this.isAdmin =Boolean(user.isAdmin);
+    this.isAdmin = Boolean(user.isAdmin);
     this.wallpaper = user.isAdmin || user.access.indexOf("wallpapers") != -1;
     this.qoute = user.isAdmin || user.access.indexOf("qoutes") != -1;
   },
@@ -243,8 +258,7 @@ export default {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-.sidebar-ul{
-font-family: 'Poppins', sans-serif;
+.sidebar-ul {
+  font-family: "Poppins", sans-serif;
 }
-
 </style>
