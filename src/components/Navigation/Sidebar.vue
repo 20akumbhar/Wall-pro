@@ -124,7 +124,7 @@
             </SidebarItem>
 
             <Wallpaper v-if="wallpaper" :isAdmin="isAdmin" />
-            <ItQuiz />
+            <ItQuiz v-if="itQuiz"/>
             <Qoutes v-if="qoute" />
             <Users v-if="isAdmin" />
             <Settings :isAdmin="isAdmin"/>
@@ -210,7 +210,7 @@ export default {
     SidebarItem,
     ViewGridIcon,
   },
-  data: () => ({ email: "", isAdmin: false, wallpaper: false, qoute: false }),
+  data: () => ({ email: "", isAdmin: false, wallpaper: false, qoute: false,itQuiz:false }),
   props: {
     toggle: { type: Boolean, default: true },
   },
@@ -235,6 +235,7 @@ export default {
     this.isAdmin = Boolean(user.isAdmin);
     this.wallpaper = user.isAdmin || user.access.indexOf("wallpapers") != -1;
     this.qoute = user.isAdmin || user.access.indexOf("qoutes") != -1;
+    this.itQuiz = user.isAdmin || user.access.indexOf("itquiz") != -1;
   },
 };
 </script>

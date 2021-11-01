@@ -63,7 +63,7 @@
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span
-                  v-if="!level.data().isActive"
+                    v-if="!level.data().isActive"
                     class="
                       px-2
                       inline-flex
@@ -78,7 +78,7 @@
                     In Progress
                   </span>
                   <span
-                  v-if="level.data().isActive"
+                    v-if="level.data().isActive"
                     class="
                       px-2
                       inline-flex
@@ -94,7 +94,7 @@
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{level.data().noOfQuestions}}
+                  {{ level.data().noOfQuestions }}
                 </td>
                 <td
                   class="
@@ -105,7 +105,9 @@
                     font-medium
                   "
                 >
-                  <router-link :to="'/it-quiz/level/'+level.id" class="text-indigo-600 hover:text-indigo-900"
+                  <router-link
+                    :to="'/it-quiz/level/' + level.id"
+                    class="text-indigo-600 hover:text-indigo-900"
                     >Edit</router-link
                   >
                 </td>
@@ -124,6 +126,7 @@
                   class="px-2 py-1 text-center text-gray-600 font-semibold"
                 >
                   <button
+                    v-if="isAdmin"
                     @click="addLevel"
                     class="
                       border-2
@@ -137,6 +140,9 @@
                   >
                     Add Level
                   </button>
+                  <span v-if="!isAdmin" class="text-xs text-bgray-500"
+                    >You need admin permissions to add level</span
+                  >
                 </td>
               </tr>
             </tbody>
@@ -151,8 +157,14 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 export default {
-  data: () => ({ levels: [] }),
+  data: () => ({ levels: [], isAdmin: false }),
   created() {
+    var obj = JSON.parse(localStorage.getItem("user"));
+    this.isAdmin = obj.isAdmin;
+    if (!obj.isAdmin && obj.access.indexOf("itquiz") == -1) {
+      this.$router.push("/");
+      return;
+    }
     this.ItQuizDB.firestore()
       .collection("levels")
       .orderBy("timestamp")
@@ -167,20 +179,32 @@ export default {
   },
   methods: {
     addLevel() {
-      this.ItQuizDB.firestore().collection("levels").add({
+      
+      // Get a new write batch
+      var batch = this.ItQuizDB.firestore().batch();
+
+      // Set the value of 'NYC'
+      var addRef = this.ItQuizDB.firestore().collection("levels").doc();
+      batch.set(addRef, {
         uploadedBy: firebase.auth().currentUser.email,
-        timestamp : firebase.firestore.FieldValue.serverTimestamp(),
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         noOfQuestions: 0,
         levelNumber: this.levels.length,
         totalMarks: 0,
         isActive: false,
         languageId: this.$route.params.languageId,
-        passingMarks:0
-      }).then((doc)=>{
-          console.log("Added level :",doc.id);
-      }).catch((err)=>{
-          console.log(err.message);
-      })
+        passingMarks: 0,
+      });
+
+      var updateRef = this.ItQuizDB.firestore().collection("data").doc("data");
+      batch.update(updateRef, {
+        levels: firebase.firestore.FieldValue.increment(1),
+      });
+
+      // Commit the batch
+      batch.commit().then(() => {
+        console.log("Added level ");
+      });
     },
   },
 };

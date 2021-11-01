@@ -4,6 +4,7 @@
       <div class="bg-blue-900 h-96"></div>
     </div>
     <Wallpaper :data="wallpaperData"/>
+    <ItQuiz/>
     <Qoutes/>
     <h1 class="m-4 text-xl font-bold text-blue-400 backdrop-grayscale-0">Admin</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-4 gap-4">
@@ -74,6 +75,7 @@
 import firebase from "firebase/app";
 import Wallpaper from "../components/Home/Wallpaper.vue";
 import Qoutes from "../components/Home/Qoutes.vue";
+import ItQuiz from "../components/Home/ItQuiz.vue";
 import "firebase/firestore";
 //import Wallpaper from '../components/Navigation/Sidebar/Wallpaper.vue';
 export default {
@@ -82,7 +84,7 @@ export default {
     users: 0,
     wallpaperData:{}
   }),
-  components: {Wallpaper,Qoutes},
+  components: {Wallpaper,Qoutes,ItQuiz},
   methods: {},
   created() {
     firebase

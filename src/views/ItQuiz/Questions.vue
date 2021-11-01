@@ -1,6 +1,26 @@
 <template>
   <div class="w-full p-2 sm:w-9/12 lg:w-8/12">
-    <div class="border mb-2 py-1 px-2" @click="toggleView">Add Question</div>
+    <div
+      class="
+        flex
+        justify-between
+        w-full
+        px-4
+        mt-2
+        py-2
+        text-sm
+        font-medium
+        text-left text-purple-100
+        bg-purple-900
+        rounded-lg
+        hover:bg-purple-800
+        focus:outline-none
+        mb-2
+      "
+      @click="toggleView"
+    >
+      <span> Add Question</span><PlusSmIcon class="h-5 w-5" />
+    </div>
     <div v-if="showQuestionView">
       <QuillEditor
         placeholder="Enter Questions .."
@@ -54,15 +74,20 @@
       <button
         @click="save"
         class="
-          bg-blue-600
           flex
-          items-center
+          justify-between
           gap-2
-          text-white
-          mt-4
-          py-2
           px-4
-          rounded
+          mt-2
+          py-2
+          text-sm
+          font-medium
+          text-left text-purple-100
+          bg-purple-900
+          rounded-lg
+          hover:bg-purple-800
+          focus:outline-none
+          mb-2
         "
       >
         <span
@@ -128,7 +153,7 @@
         <DisclosurePanel class="px-4 pt-4 pb-2 text-sm text-gray-500">
           <div v-html="question.data().question"></div>
           <TrashIcon
-            @click="deleteQuestion(question.id)"
+            @click="deleteQuestion(question.id, question.data().marks)"
             class="h-6 w-6 float-right mb-4 text-red-300 hover:text-red-500"
           />
         </DisclosurePanel>
@@ -142,7 +167,7 @@ import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
-import { ChevronUpIcon, TrashIcon } from "@heroicons/vue/solid";
+import { ChevronUpIcon, TrashIcon, PlusSmIcon } from "@heroicons/vue/solid";
 export default {
   components: {
     TrashIcon,
@@ -151,10 +176,11 @@ export default {
     DisclosureButton,
     DisclosurePanel,
     ChevronUpIcon,
+    PlusSmIcon,
   },
   data: () => ({
     toolbarOptions: [
-      ["bold", "italic", "underline", "strike"], // toggled buttons
+      ["bold", "italic", "underline"], // toggled buttons
       ["blockquote", "code-block"],
 
       [{ header: 1 }, { header: 2 }], // custom button values
@@ -169,7 +195,7 @@ export default {
       [{ color: [] }, { background: [] }], // dropdown with defaults from theme
       [{ font: [] }],
       [{ align: [] }],
-
+      ["link", "image", "video", "formula"],
       ["clean"], // remove formatting button
     ],
     delta: "",
@@ -214,7 +240,7 @@ export default {
         answer: this.answer,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         levelId: this.$route.params.levelId,
-        marks: this.marks
+        marks: this.marks,
       });
 
       var updateRef = db.collection("levels").doc(this.$route.params.levelId);
@@ -225,12 +251,25 @@ export default {
         noOfQuestions: firebase.firestore.FieldValue.increment(1),
       });
 
+      var updateDataRef = db.collection("data").doc("data");
+      batch.update(updateDataRef, {
+        questions: firebase.firestore.FieldValue.increment(1),
+      });
+
       batch
         .commit()
         .then(() => {
           this.saving = false;
           this.saved = true;
           this.error = false;
+          this.delta = "";
+          this.option1 = "";
+          this.option2 = "";
+          this.option3 = "";
+          this.option4 = "";
+          this.answer = "";
+          this.marks = 0;
+          this.showQuestionView = false;
         })
         .catch((error) => {
           console.error("Error writing document: ", error);
@@ -242,21 +281,42 @@ export default {
     toggleView() {
       this.showQuestionView = !this.showQuestionView;
     },
-    deleteQuestion(id) {
+    deleteQuestion(id, marks) {
       var c = confirm("Delete this question ?");
       if (!c) return;
-      this.ItQuizDB.firestore().collection("questions")
-        .doc(id)
-        .delete()
+      var db = this.ItQuizDB.firestore();
+      var batch = db.batch();
+      var deleteRef = db.collection("questions").doc(id);
+      batch.delete(deleteRef);
+      var updateDataRef = db.collection("data").doc("data");
+      batch.update(updateDataRef, {
+        questions: firebase.firestore.FieldValue.increment(-1),
+      });
+      console.log(-1 * parseInt(marks));
+      var updateRef = db.collection("levels").doc(this.$route.params.levelId);
+      batch.update(updateRef, {
+        totalMarks: firebase.firestore.FieldValue.increment(
+          -1 * parseInt(marks)
+        ),
+        noOfQuestions: firebase.firestore.FieldValue.increment(-1),
+      });
+
+      batch
+        .commit()
         .then(() => {
-          console.log("Document successfully deleted!");
+          console.log("deleted question");
         })
         .catch((error) => {
-          console.error("Error removing document: ", error);
+          console.error("Error deleting document: ", error);
         });
     },
   },
   created() {
+    var obj = JSON.parse(localStorage.getItem("user"));
+    if (!obj.isAdmin && obj.access.indexOf("itquiz") == -1) {
+      this.$router.push("/");
+      return;
+    }
     this.ItQuizDB.firestore()
       .collection("questions")
       .orderBy("timestamp")

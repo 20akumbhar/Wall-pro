@@ -105,6 +105,11 @@ export default {
   components: {},
   data: () => ({ level: null, language: null }),
   created() {
+    var obj = JSON.parse(localStorage.getItem("user"));
+    if (!obj.isAdmin && obj.access.indexOf("itquiz") == -1) {
+      this.$router.push("/");
+      return;
+    }
     this.ItQuizDB.firestore()
       .collection("levels")
       .doc(this.$route.params.levelId)
